@@ -1,11 +1,12 @@
 using DotNetWebApiSupport.EntityLayer;
+using DotNetWebApiSupport.Interfaces;
 
 namespace DotNetWebApiSupport.RepositoryLayer;
 
 /// <summary>
 /// Class to work with Product data
 /// </summary>
-public class ProductRepository
+public class ProductRepository : IRepository<Product>
 {
   /// <summary>
   /// Get all Product objects
