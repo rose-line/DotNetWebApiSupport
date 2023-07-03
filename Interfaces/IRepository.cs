@@ -9,5 +9,6 @@ namespace DotNetWebApiSupport.Interfaces
   {
     List<T> Get();
     T? Get(int id);
+    T Insert(T entity);
   }
 }

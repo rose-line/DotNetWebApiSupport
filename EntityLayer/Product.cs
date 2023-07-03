@@ -1,6 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DotNetWebApiSupport.EntityLayer;
 
-public class Product
+[Table("Product", Schema = "SalesLT")]
+public partial class Product
 {
   public Product()
   {
@@ -10,10 +14,17 @@ public class Product
     Size = string.Empty;
   }
 
+  [Required]
+  [Key]
+  [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
   public int ProductID { get; set; }
+  [Required(ErrorMessage = "The Product name is required")]
   public string Name { get; set; }
+  [Required]
   public string ProductNumber { get; set; }
   public string? Color { get; set; }
+  [Required]
+  [Column(TypeName = "decimal(18, 2)")]
   public decimal StandardCost { get; set; }
   public decimal ListPrice { get; set; }
   public string? Size { get; set; }
@@ -23,6 +34,7 @@ public class Product
   public DateTime SellStartDate { get; set; }
   public DateTime? SellEndDate { get; set; }
   public DateTime? DiscontinuedDate { get; set; }
-  public Guid rowguid { get; set; }
+  [Column("rowguid")]
+  public Guid Rowguid { get; set; }
   public DateTime ModifiedDate { get; set; }
 }

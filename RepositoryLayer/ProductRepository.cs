@@ -1,5 +1,6 @@
 using DotNetWebApiSupport.EntityLayer;
 using DotNetWebApiSupport.Interfaces;
+using DotNetWebApiSupport.Models;
 
 namespace DotNetWebApiSupport.RepositoryLayer;
 
@@ -8,11 +9,40 @@ namespace DotNetWebApiSupport.RepositoryLayer;
 /// </summary>
 public class ProductRepository : IRepository<Product>
 {
+  private readonly AWLTDbContext _context;
+
+  public ProductRepository(AWLTDbContext context)
+  {
+    _context = context;
+  }
+
+  public List<Product> Get()
+  {
+    return _context.Products.OrderBy(row => row.Name).ToList();
+  }
+
+  public Product? Get(int id)
+  {
+    return _context.Products.Find(id);
+  }
+
+  public Product Insert(Product entity)
+  {
+    entity.ModifiedDate = DateTime.Now;
+    entity.Rowguid = Guid.NewGuid();
+
+    _context.Products.Add(entity);
+
+    _context.SaveChanges();
+
+    return entity;
+  }
+
   /// <summary>
   /// Get all Product objects
   /// </summary>
   /// <returns>A list of Product objects</returns>
-  public List<Product> Get()
+  public List<Product> GetDummy()
   {
     return new List<Product>
     {
@@ -4434,8 +4464,8 @@ public class ProductRepository : IRepository<Product>
   /// </summary>
   /// <param name="id">The value to locate</param>
   /// <returns>A valid Product object object, or null if not found</returns>
-  public Product? Get(int id)
+  public Product? GetDummy(int id)
   {
-    return Get().Where(row => row.ProductID == id).FirstOrDefault();
+    return GetDummy().Where(row => row.ProductID == id).FirstOrDefault();
   }
 }

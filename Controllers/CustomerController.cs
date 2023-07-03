@@ -7,11 +7,11 @@ namespace DotNetWebApiSupport.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
-  public class CustomerController : ControllerBase
+  public class CustomerController : ControllerBaseExtended
   {
     private IRepository<Customer> _repo;
 
-    public CustomerController(IRepository<Customer> repo)
+    public CustomerController(IRepository<Customer> repo, ILogger logger) : base(logger)
     {
       _repo = repo;
     }

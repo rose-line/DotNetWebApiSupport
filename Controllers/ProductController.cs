@@ -7,20 +7,18 @@ namespace DotNetWebApiSupport.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class ProductController : ControllerBaseExtended
 {
   private readonly Settings _settings;
   private readonly IRepository<Product> _repo;
   private readonly IConfiguration _config;
 
-  public ProductController(Settings settings, IRepository<Product> repo, IConfiguration config)
+  public ProductController(Settings settings, IRepository<Product> repo, IConfiguration config, ILogger<LogTestController> logger) : base(logger)
   {
     _settings = settings;
     _repo = repo;
     _config = config;
 
-    // Illustration d'accès à un Setting
-    _config = config;
     // Lecture du setting 'UserMessageDefault'
     string message = _config["DotNetWebApiSupport:UserMessageDefault"]
       ?? string.Empty;
@@ -66,6 +64,7 @@ public class ProductController : ControllerBase
     }
     else
     {
+      _logger.LogInformation($"Can't find Product with a Product Id of '{id}'.");
       return NotFound($"Can't find Product with a Product Id of '{id}'.");
     }
   }
@@ -92,5 +91,13 @@ public class ProductController : ControllerBase
   {
     // TODO: recherche par catégorie à implémenter
     return StatusCode(StatusCodes.Status200OK);
+  }
+
+  [HttpPost]
+  public ActionResult<Product> Post([FromBody] Product entity)
+  {
+    entity = _repo.Insert(entity);
+
+    return StatusCode(StatusCodes.Status201Created, entity);
   }
 }

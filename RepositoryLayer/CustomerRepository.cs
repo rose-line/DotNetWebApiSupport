@@ -2231,5 +2231,10 @@ public class CustomerRepository : IRepository<Customer>
   {
     return Get().Where(row => row.CustomerID == id).FirstOrDefault();
   }
+
+  public Customer Insert(Customer entity)
+  {
+    throw new NotImplementedException();
+  }
   #endregion
 }

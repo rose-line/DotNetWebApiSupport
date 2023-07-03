@@ -13,7 +13,7 @@ public class ProductEntityController : ControllerBase
   {
     List<Product> list;
 
-    list = new ProductRepository().Get();
+    list = new ProductRepository(null).Get();
 
     return list;
   }
@@ -23,7 +23,7 @@ public class ProductEntityController : ControllerBase
   {
     Product? entity;
 
-    entity = new ProductRepository().Get(id);
+    entity = new ProductRepository(null).Get(id);
 
     return entity;
   }

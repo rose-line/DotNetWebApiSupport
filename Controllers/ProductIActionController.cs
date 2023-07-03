@@ -13,7 +13,7 @@ public class ProductIActionController : ControllerBase
   public IActionResult Get()
   {
     List<Product> list;
-    list = new ProductRepository().Get();
+    list = new ProductRepository(null).Get();
     return StatusCode(StatusCodes.Status200OK, list);
   }
 
@@ -25,7 +25,7 @@ public class ProductIActionController : ControllerBase
     IActionResult ret;
     Product? entity;
 
-    entity = new ProductRepository().Get(id);
+    entity = new ProductRepository(null).Get(id);
     if (entity != null)
     {
       ret = Ok(entity);

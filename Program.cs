@@ -1,6 +1,8 @@
 using DotNetWebApiSupport.EntityLayer;
 using DotNetWebApiSupport.Interfaces;
+using DotNetWebApiSupport.Models;
 using DotNetWebApiSupport.RepositoryLayer;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 
@@ -13,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Settings, Settings>();
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IRepository<Customer>, CustomerRepository>();
+
+// Configuration DB
+builder.Services.AddDbContext<AWLTDbContext>(options =>
+   options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Configuration CORS
 builder.Services.AddCors(options =>
